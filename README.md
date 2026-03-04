@@ -24,6 +24,16 @@ You may switch to larger variants if GPU memory allows.
 
 ---
 
+
+👤 Author & Affiliation
+
+Dr. Javier Lamar León – Investigador
+
+Laboratório BigData@UE, Escola de Ciências e Tecnologia, Universidade de Évora, Portugal
+
+Email: javier.lamar@uevora.pt
+
+
 # 📁 Main File
 
 The main notebook for inference and exploration is:
