@@ -1,78 +1,226 @@
-# 📚 Deep Learning Practical: Transformers & LLMs
+# 🧠 Transformer Model Exploration with Qwen2 (1.5B Instruct)
 
-Welcome to the **Deep Learning Practical** focused on **Transformers and Large Language Models (LLMs)**.  
-This course will guide you **from understanding the Transformer architecture to running inference and fine-tuning models** like Qwen and TinyLlama.
+## 📌 Project Overview
 
----
+This project demonstrates how to:
 
-## 🎯 Learning Objectives
+- Install and configure required libraries
+- Check GPU availability in Google Colab
+- Load a HuggingFace Large Language Model (LLM)
+- Run inference with temperature and sampling
+- Inspect tokenizer vocabulary
+- Explore transformer architecture internals
+- Visualize forward-pass module execution
+- Generate text step-by-step with logits and probabilities
+- Visualize token embeddings using t-SNE
 
-By the end of this practical session, students will be able to:
+The default model used:
 
-1. Understand the **core Transformer architecture** (self-attention, MLP, residuals, layer norms).  
-2. Load a **pre-trained 1B+ parameter LLM** and run **text generation**.  
-3. Explore **internal Transformer components** to understand weights, projections, and layers.  
-4. Perform **first experiments in model fine-tuning** using full parameter updates.  
-5. Apply **LoRA (Low-Rank Adaptation)** for **parameter-efficient fine-tuning**.  
-6. Use professional workflow with **VS Code, GitHub, and Google Colab**.  
+```
+Qwen/Qwen2-1.5B-Instruct
+```
 
----
-
-## 📂 Repository Structure
-```text
-DL_LLM_Practical/
-│
-├── notebooks/
-│   ├── 01_inference.ipynb         # Load model, run prompts, explore Transformer internals
-│   ├── 02_full_finetuning.ipynb   # Full fine-tuning on small dataset
-│   ├── 03_lora_finetuning.ipynb   # LoRA fine-tuning experiments
-│
-├── data/
-│   └── small_dataset.json          # Sample instruction dataset
-│
-├── requirements.txt                # Python dependencies for the notebooks
-└── README.md
-
+You may switch to larger variants if GPU memory allows.
 
 ---
 
-## ⚡ Getting Started
+# 📁 Main File
 
-### 1️⃣ Open Notebook in Google Colab
+The main notebook for inference and exploration is:
 
-Click the badge to launch the notebook directly:
+```
+notebooks/01_inference.ipynb
+```
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YOUR_USER/DL_LLM_Practical/blob/main/notebooks/01_inference.ipynb)
-
-Or manually:
-
-1. Go to [Google Colab](https://colab.research.google.com)  
-2. Click **File → Open notebook → GitHub**  
-3. Paste the repository URL:  
-
-
-4. Select `01_inference.ipynb`
+It can be run directly in **Google Colab**.
 
 ---
 
-### 2️⃣ Set Runtime Type
+# 📦 Installation
 
-To use GPU:
+Install required packages:
 
-- **Runtime → Change runtime type → Hardware accelerator → GPU**  
+```bash
+pip install -q transformers datasets peft accelerate
+```
 
-This ensures the LLM runs efficiently.
+### Package Purpose
+
+- **transformers** – Load and run pretrained LLMs
+- **datasets** – Optional dataset handling
+- **peft** – For LoRA fine-tuning experiments
+- **accelerate** – Optimized GPU usage
 
 ---
 
-### 3️⃣ Run the First Cell
+# 🖥️ Running in Google Colab
 
-The first cell installs all required packages:
+1. Open Google Colab: [https://colab.research.google.com/](https://colab.research.google.com/)
+2. Upload `notebooks/01_inference.ipynb` or open it directly from GitHub.
+3. Change runtime type to GPU: `Runtime → Change runtime type → GPU`
+4. Run all cells to install dependencies, check GPU, load the model, and perform inference.
+
+Optional: Save outputs to Google Drive for persistence.
+
+---
+
+# 🤖 Loading the Model
 
 ```python
-# 🚀 Install required packages for running the model
-# - transformers: for loading and running LLMs
-# - datasets: optional, for dataset handling
-# - peft: for later LoRA experiments
-# - accelerate: for optimized GPU usage in Colab
-!pip install -q transformers datasets peft accelerate
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+
+MODEL_ID = "Qwen/Qwen2-1.5B-Instruct"
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+
+tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
+tokenizer.pad_token = tokenizer.eos_token
+
+model = AutoModelForCausalLM.from_pretrained(
+    MODEL_ID,
+    torch_dtype=torch.bfloat16 if DEVICE=="cuda" else torch.float32,
+    device_map="auto" if DEVICE=="cuda" else None,
+    trust_remote_code=True
+)
+
+model.eval()
+```
+
+---
+
+# ✨ Text Generation
+
+Basic generation helper:
+
+```python
+def generate_text(prompt, max_length=128, temperature=0.7):
+    inputs = tokenizer(prompt, return_tensors="pt").to(DEVICE)
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=max_length,
+        temperature=temperature,
+        do_sample=True
+    )
+    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+```
+
+---
+
+# 🔎 Transformer Architecture Overview
+
+### Processing Flow
+
+1. Tokenization  
+2. Embeddings  
+3. Positional Encoding  
+4. Multi-Head Self-Attention  
+5. Feed-Forward Layers  
+6. Output Projection  
+7. Softmax & Token Generation
+
+---
+
+# 📚 Vocabulary Exploration
+
+Access vocabulary:
+
+```python
+vocab = tokenizer.get_vocab()
+print(len(vocab))
+```
+
+Random sampling:
+
+```python
+sample_vocab(tokenizer, N=100)
+```
+
+Language-filtered sampling:
+- English (ASCII tokens)
+- French / Spanish (non-ASCII tokens)
+
+---
+
+# 🏗️ Inspecting Model Internals
+
+The notebook includes:
+- Forward hook tracing
+- Module execution order
+- Weight shapes
+- Trainable status
+- Output tensor shapes
+- Functional role comments
+
+---
+
+# 📊 Step-by-Step Token Generation
+
+Includes token-by-token generation with:
+- Logits
+- Softmax probabilities
+- Token ID
+- Decoded token
+- Running sequence
+
+Supports:
+- Greedy decoding (temperature=0)
+- Temperature sampling
+- Top-k sampling
+
+---
+
+# 📈 Embedding Visualization (t-SNE)
+
+Visualizes selected token embeddings in 2D:
+
+```python
+visualize_token_embeddings_tsne(model, tokenizer, tokens, device=DEVICE)
+```
+
+Example tokens:
+- king / queen
+- man / woman
+- dog / cat
+- happy / sad
+
+---
+
+# ⚙️ Requirements
+
+- Python 3.8+
+- PyTorch 2.x
+- CUDA-enabled GPU (recommended)
+- 8GB+ VRAM for 1.5B model
+
+---
+
+# 📜 License
+
+This project is for educational and research purposes.
+Refer to the original model license for commercial usage restrictions.
+
+---
+
+# 🙌 Acknowledgements
+
+- HuggingFace Transformers
+- Qwen Team
+- PyTorch
+
+---
+
+# 🚀 Summary
+
+This repository provides a hands-on, transparent exploration of:
+
+- How transformers work internally
+- How token probabilities are computed
+- How embeddings represent meaning
+- How GPU acceleration affects performance
+
+Designed for students, researchers, and practitioners who want to go beyond black-box usage and understand LLM mechanics.
+
+---
+
+Happy experimenting! 🧠✨
+
