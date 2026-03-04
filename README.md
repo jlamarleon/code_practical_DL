@@ -25,13 +25,13 @@ You may switch to larger variants if GPU memory allows.
 ---
 
 
-👤 Author & Affiliation
+👤 Author
 
 Dr. Javier Lamar León – Investigador
 
 Laboratório BigData@UE, Escola de Ciências e Tecnologia, Universidade de Évora, Portugal
 
-Email: javier.lamar@uevora.pt
+Email: jlamarleon@gmail.com   jlamarleon@uevora.pt
 
 
 # 📁 Main File
