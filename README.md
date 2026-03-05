@@ -203,7 +203,7 @@ Example tokens:
 - Python 3.8+
 - PyTorch 2.x
 - CUDA-enabled GPU (recommended)
-- 8GB+ VRAM for 1.5B model
+- 8GB+ VRAM for 0.5B model
 
 ---
 
