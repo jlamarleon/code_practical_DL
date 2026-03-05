@@ -83,7 +83,7 @@ Optional: Save outputs to Google Drive for persistence.
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
-MODEL_ID = "Qwen/Qwen2-1.5B-Instruct"
+MODEL_ID = "Qwen/Qwen2-0.5B"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
