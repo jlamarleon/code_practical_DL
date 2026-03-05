@@ -56,10 +56,13 @@ pip install -q transformers datasets peft accelerate
 
 ### Package Purpose
 
-- **transformers** – Load and run pretrained LLMs
-- **datasets** – Optional dataset handling
-- **peft** – For LoRA fine-tuning experiments
-- **accelerate** – Optimized GPU usage
+- **torch** → PyTorch backend (GPU + tensors)
+- **transformers** → Model & tokenizer loading
+- **datasets** → Optional dataset handling
+- **peft** → LoRA / parameter-efficient fine-tuning
+- **accelerate** → Optimized device handling
+- **matplotlib** → t-SNE visualization plotting
+- **scikit-learn** → TSNE (from sklearn.manifold)
 
 ---
 
