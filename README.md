@@ -46,6 +46,18 @@ It can be run directly in **Google Colab**.
 
 ---
 
+# 🖥️ Running in Google Colab
+
+1. Open Google Colab: [https://colab.research.google.com/](https://colab.research.google.com/)
+2. Upload `notebooks/01_inference.ipynb` or open it directly from GitHub using: [https://github.com/jlamarleon/code_practical_DL/blob/main/notebooks/01_inference.ipynb] .
+3. Change runtime type to GPU: `Runtime → Change runtime type → GPU`
+4. Run all cells to install dependencies, check GPU, load the model, and perform inference.
+
+Optional: Save outputs to Google Drive for persistence.
+
+---
+
+
 # 📦 Installation
 
 Install required packages:
@@ -63,17 +75,6 @@ pip install -q transformers datasets peft accelerate
 - **accelerate** → Optimized device handling
 - **matplotlib** → t-SNE visualization plotting
 - **scikit-learn** → TSNE (from sklearn.manifold)
-
----
-
-# 🖥️ Running in Google Colab
-
-1. Open Google Colab: [https://colab.research.google.com/](https://colab.research.google.com/)
-2. Upload `notebooks/01_inference.ipynb` or open it directly from GitHub.
-3. Change runtime type to GPU: `Runtime → Change runtime type → GPU`
-4. Run all cells to install dependencies, check GPU, load the model, and perform inference.
-
-Optional: Save outputs to Google Drive for persistence.
 
 ---
 
