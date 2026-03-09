@@ -17,7 +17,7 @@ This project demonstrates how to:
 The default model used:
 
 ```
-Qwen/Qwen2-1.5B-Instruct
+Qwen/Qwen2-0.5B-Instruct
 ```
 
 You may switch to larger variants if GPU memory allows.
@@ -31,7 +31,8 @@ Dr. Javier Lamar León – Investigador
 
 Laboratório BigData@UE, Escola de Ciências e Tecnologia, Universidade de Évora, Portugal
 
-Email: jlamarleon@gmail.com   jlamarleon@uevora.pt
+Email:   jlamarleon@gmail.com 
+         jlamarleon@uevora.pt
 
 
 # 📁 Main File
