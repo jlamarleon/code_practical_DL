@@ -1,4 +1,4 @@
-# 🧠 Transformer Model Exploration with Qwen2 (1.5B Instruct)
+# 🧠 Transformer Model Exploration with Qwen2 (0.5B Instruct)
 
 ## 📌 Project Overview
 
